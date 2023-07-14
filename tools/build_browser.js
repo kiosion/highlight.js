@@ -5,7 +5,6 @@ const glob = require("glob-promise");
 const path = require("path");
 const zlib = require('zlib');
 const Terser = require("terser");
-const child_process = require('child_process');
 const { getLanguages } = require("./lib/language.js");
 const { filter } = require("./lib/dependencies.js");
 const config = require("./build_config.js");
@@ -16,14 +15,11 @@ const bundling = require('./lib/bundling.js');
 const Table = require('cli-table');
 
 const getDefaultHeader = () => ({
-  ...require('../package.json'),
-  git_sha: child_process
-    .execSync("git rev-parse --short=10 HEAD")
-    .toString().trim()
+  ...require('../package.json')
 });
 function buildHeader(args = getDefaultHeader()) {
   return "/*!\n"
-  + `  Highlight.js v${args.version} (git: ${args.git_sha})\n`
+  + `  Highlight.js v${args.version})\n`
   + `  (c) ${config.copyrightYears} ${args.author.name} and other contributors\n`
   + `  License: ${args.license}\n`
   + ` */`;
